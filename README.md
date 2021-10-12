@@ -17,3 +17,5 @@ Core features of this project include:
 ## Website Link ##
 http://ccbchatbot.com.s3-website-us-west-2.amazonaws.com/
 
+Sample Architecture (From Assignment):
+<img src="yelp-concierge-cloud-architecture.png" />
