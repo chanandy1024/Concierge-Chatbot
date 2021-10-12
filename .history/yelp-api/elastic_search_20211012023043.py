@@ -68,5 +68,5 @@ data = get_table('yelp_restaurants')
 # do something with data
 deserialized = json_util.loads(data)
 df = pd.DataFrame(deserialized)[['business_id', 'categories']]
-#df.to_csv('db_scan.csv')
+df.to_csv('db_scan.csv')
 dump_table(df.to_dict(orient='records'))

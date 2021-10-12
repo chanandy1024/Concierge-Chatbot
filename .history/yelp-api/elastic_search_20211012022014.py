@@ -26,7 +26,6 @@ def get_table(table_name):
                 ExclusiveStartKey=last_evaluated_key,
                 AttributesToGet=['business_id', 'categories']
             )
-            sleep(30)
         else: 
             response = client.scan(TableName=table_name, AttributesToGet=['business_id', 'categories'])
         last_evaluated_key = response.get('LastEvaluatedKey')
@@ -61,12 +60,12 @@ def dump_table(data):
 
     aos.bulk(bulk_file)
     
-    print("Pushed to Opensearch!")
+    print(aos.search(q='some test query'))
 
 # Usage
 data = get_table('yelp_restaurants')
 # do something with data
 deserialized = json_util.loads(data)
 df = pd.DataFrame(deserialized)[['business_id', 'categories']]
-#df.to_csv('db_scan.csv')
+df.to_csv('db_scan.csv')
 dump_table(df.to_dict(orient='records'))

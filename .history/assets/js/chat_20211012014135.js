@@ -16,11 +16,14 @@ $(document).ready(function() {
       user_id : user_id
     }, {}).then(data => {
       var searchResults = JSON.parse(data.data.search_results);
-      insertResponseMessage(`Welcome back! We found your recent dining recommendations. You asked for ${data.data.Cuisine} restaurants for a party of ${data.data.Attendees}:`);
-      for (let i = 0; i < searchResults.length; i++){
-        insertResponseMessage(`${i+1}. ${searchResults[i].name}, located at ${searchResults[i].location.display_address.join(', ')}.`);
-      }
-      //insertResponseMessage('...or would you like new suggestions?');
+
+      $(window).load(function() {
+        insertResponseMessage('Welcome back! These are your most recent recommendations:');
+        for (let i = 0; i < searchResults.length; i++){
+          insertResponseMessage(`${i+1}. ${searchResults[i].name}, located at ${searchResults[i].location.display_address.join(', ')}.`);
+        }
+        //insertResponseMessage('...or would you like new suggestions?');
+      });
       // based on user_id
     }).catch(err => {
         console.log(err);
@@ -68,6 +71,8 @@ $(document).ready(function() {
         }
       }]
     }, {});
+
+   
   }
   
   function insertMessage() {
