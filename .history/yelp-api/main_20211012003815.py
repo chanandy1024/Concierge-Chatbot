@@ -25,6 +25,8 @@ def insert_to_db(data):
     print("Connected to dynamodb:", table.creation_date_time)
     print("Inserting", len(data), "records")
     #batch insert 
+    
+    '''
     with table.batch_writer(overwrite_by_pkeys=['business_id']) as batch:
         # Float types must be converted to decimal
         for row in json.loads(json.dumps(data), parse_float=Decimal):
@@ -33,18 +35,18 @@ def insert_to_db(data):
             batch.put_item(
                 Item=row
             )
-    
+    '''
 def get_data(category, limit=50):
     client_id = os.environ['YELP_API_CLIENT_ID']
     api_key = os.environ['YELP_API_KEY']
     api = YelpApi.YelpApi(client_id, api_key)
     return api.get_business_search({
-            "term": "restaurants",
-            "location": "NYC",
+            "term": "food",
+            "location": "New York",
             "limit": limit,
             "offset": 0,
             "radius": 40000,
-            "categories": category,
+            "category": category,
             "sort_by": 'review_count',
         }, count=limit)
 
@@ -130,7 +132,8 @@ if __name__ == '__main__':
     for category in categories:
         result = get_data(category, limit=200)
         if (len(result)):
-            insert_to_db(result)
+            pd.DataFrame(result).to_csv('test.csv', index=False)
+            insert_to_db(pd.DataFrame(result).drop_duplicates(subset=['id']).to_dict(orient='records'))
             print('successfully inserted:', category)
             sleep(30)
     print("done")

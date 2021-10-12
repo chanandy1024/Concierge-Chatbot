@@ -16,7 +16,7 @@ $(document).ready(function() {
       user_id : user_id
     }, {}).then(data => {
       var searchResults = JSON.parse(data.data.search_results);
-      insertResponseMessage(`Welcome back! We found your recent dining recommendations. You asked for ${data.data.Cuisine} restaurants for a party of ${data.data.Attendees}:`);
+      insertResponseMessage(`Welcome back! We found your recent dining suggestions: ${data.data.Cuisine} restaurants for a party of ${data.data.Attendees}, on ${data.data.Date}`);
       for (let i = 0; i < searchResults.length; i++){
         insertResponseMessage(`${i+1}. ${searchResults[i].name}, located at ${searchResults[i].location.display_address.join(', ')}.`);
       }

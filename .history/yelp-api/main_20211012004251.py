@@ -39,8 +39,8 @@ def get_data(category, limit=50):
     api_key = os.environ['YELP_API_KEY']
     api = YelpApi.YelpApi(client_id, api_key)
     return api.get_business_search({
-            "term": "restaurants",
-            "location": "NYC",
+            "term": "food",
+            "location": "New York",
             "limit": limit,
             "offset": 0,
             "radius": 40000,
@@ -130,7 +130,7 @@ if __name__ == '__main__':
     for category in categories:
         result = get_data(category, limit=200)
         if (len(result)):
-            insert_to_db(result)
+            insert_to_db(pd.DataFrame(result).drop_duplicates(subset=['id']).to_dict(orient='records'))
             print('successfully inserted:', category)
             sleep(30)
     print("done")

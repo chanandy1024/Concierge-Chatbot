@@ -39,8 +39,8 @@ def get_data(category, limit=50):
     api_key = os.environ['YELP_API_KEY']
     api = YelpApi.YelpApi(client_id, api_key)
     return api.get_business_search({
-            "term": "restaurants",
-            "location": "NYC",
+            "term": "food",
+            "location": "New York",
             "limit": limit,
             "offset": 0,
             "radius": 40000,

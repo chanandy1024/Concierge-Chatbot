@@ -1,7 +1,7 @@
 import YelpApi
 import os
 from dotenv import load_dotenv
-import pandas as pd
+import pandas
 import boto3
 from time import time, sleep
 from decimal import Decimal
@@ -23,7 +23,6 @@ def insert_to_db(data):
     # This will cause a request to be made to DynamoDB and its attribute
     # values will be set based on the response.
     print("Connected to dynamodb:", table.creation_date_time)
-    print("Inserting", len(data), "records")
     #batch insert 
     with table.batch_writer(overwrite_by_pkeys=['business_id']) as batch:
         # Float types must be converted to decimal
@@ -33,18 +32,17 @@ def insert_to_db(data):
             batch.put_item(
                 Item=row
             )
-    
+
 def get_data(category, limit=50):
     client_id = os.environ['YELP_API_CLIENT_ID']
     api_key = os.environ['YELP_API_KEY']
     api = YelpApi.YelpApi(client_id, api_key)
     return api.get_business_search({
-            "term": "restaurants",
+            "term": "food",
             "location": "NYC",
             "limit": limit,
             "offset": 0,
-            "radius": 40000,
-            "categories": category,
+            "category": category,
             "sort_by": 'review_count',
         }, count=limit)
 
