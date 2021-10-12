@@ -41,6 +41,29 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
+  /chatbot/:
+    get:
+      summary: Find most recent recommendations by userId
+      description: "Return the most recent restaurant recommendations based on the user's previous searches"
+      operationId: "getUserById"
+      produces:
+        - application/json
+      parameters:
+        - name: "user_id"
+          in: "query"
+          description: "ID of current user"
+          required: true
+          type: "string"
+          format: "string"
+      responses:
+        '200':
+          description: A Chatbot response containing past searches
+          schema:
+            $ref: '#/definitions/DataMessage'
+        '403':
+          description: "Unauthorized/no data found"
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   BotRequest:
     type: object
@@ -73,6 +96,28 @@ definitions:
       timestamp:
         type: string
         format: datetime
+  DataMessage:
+    type: object
+    properties:
+        data:
+          $ref: '#/definitions/SearchResults'
+  SearchResults:
+    properties:
+      search_results:
+        type: array
+        items:
+          $ref: '#/definitions/SearchResult'
+  SearchResult:
+    type: object
+    properties:
+      name:
+        type: string
+      location:
+        $ref: '#/definitions/DisplayAddress'
+  DisplayAddress:
+    type: array
+    items:
+      type: string
   Error:
     type: object
     properties:
