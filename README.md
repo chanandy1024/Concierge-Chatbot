@@ -1,5 +1,5 @@
 # Cloud Computing & Big Data: Assignment 1: Dining Concierge Agent #
-### I Hun Chan (ic2552) & Taku Takamatsu (tt2828) ###
+### I Hun Chan & Taku Takamatsu ###
 
 ## About ##
 
